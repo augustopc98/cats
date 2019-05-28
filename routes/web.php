@@ -95,3 +95,14 @@ Route::delete('cats/{cat}', function (Cat $cat){
     return Redirect::to('cats')
     ->with('message', 'Successfully deleted page! ');
 });
+View::composer('cats.edit', function($view)
+{
+    $breeds = Breed::all();
+    if(count($breeds) > 0){
+        $breed_options = array_combine($breeds->lists('id'),
+        $breeds->lists('name'));
+    } else{
+        $breed_options = array (null,'Unspecified');
+    }
+    $view->with('breed_options', $breed_options);
+});
